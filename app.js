@@ -11,7 +11,7 @@ const scissors_div = document.getElementById("s");
 
 
 function getComputerChoice() {
-    const choices = ["Rock", "Paper", "Scissors"];
+    const choices = ['r', 'p', 's'];
     return choices[Math.floor(Math.random() * 3)];
 }
 
@@ -25,13 +25,23 @@ function getLosingEmoji() {
     return winEmojis[Math.floor(Math.random() * winEmojis.length)]
 }
 
+function getWord(letter) {
+    switch (letter) {
+        case ('r'): return "Rock";
+        case ('p'): return "Paper";
+        case ('s'): return "Scissors";
+    }
+}
+
 function win(userChoice, computerChoice) {
     userScore++;
     userScore_span.innerHTML = userScore;
     const smallUserWord = "user".fontsize(3).sub();
     const smallCompWord = "comp".fontsize(3).sub();
-    result_p.innerHTML = (userChoice+smallUserWord + " beats "
-    + computerChoice+smallCompWord + ". You win! " + getWinningEmoji())
+    result_p.innerHTML = (getWord(userChoice)+smallUserWord + " beats "
+    + getWord(computerChoice)+smallCompWord + ". You win! " + getWinningEmoji())
+    // document.getElementById(userChoice).classList.add('green-glow');
+    // setTimeout(function () { document.getElementById(userChoice).classList.remove('green-glow)') }, 300);
 }
 
 function lose(userChoice, computerChoice) {
@@ -39,44 +49,58 @@ function lose(userChoice, computerChoice) {
     computerScore_span.innerHTML = computerScore;
     const smallUserWord = "user".fontsize(3).sub();
     const smallCompWord = "comp".fontsize(3).sub();
-    result_p.innerHTML = (userChoice+smallUserWord + " loses to "
-    + computerChoice+smallCompWord + ". You lose! " + getLosingEmoji());
+    result_p.innerHTML = (getWord(userChoice)+smallUserWord + " loses to "
+    + getWord(computerChoice)+smallCompWord + ". You lose! " + getLosingEmoji());
+    // document.getElementById(userChoice).classList.add('red-glow');
 }
 
 function draw(userChoice, computerChoice) {
     const smallUserWord = "user".fontsize(3).sub();
     const smallCompWord = "comp".fontsize(3).sub();
-    result_p.innerHTML = (userChoice+smallUserWord + " ties "
-    + computerChoice+smallCompWord + ". Draw! 🤜🤛");
+    result_p.innerHTML = (getWord(userChoice)+smallUserWord + " ties "
+    + getWord(computerChoice)+smallCompWord + ". Draw! 🤜🤛");
+    // document.getElementById(userChoice).classList.add('grey-glow');
 }
 
 function game(userChoice) {
     const computerChoice = getComputerChoice();
-    if ((userChoice == "Rock" && computerChoice == "Scissors") /*Rock beats scissors*/ || 
-    (userChoice == "Paper" && computerChoice == "Rock") /*Paper beats rock*/ || 
-    (userChoice == "Scissors" && computerChoice == "Paper")) /*Scissors beats paper*/ {
-        win(userChoice, computerChoice);
-    } else if (userChoice == computerChoice) {
-        draw(userChoice, computerChoice);
-    } else {
-        lose(userChoice, computerChoice);
+    switch ("" + userChoice + computerChoice) {
+        case ("rs"):
+        case ("pr"):
+        case ("sp"):
+            win(userChoice, computerChoice);
+            break;
+        case ("rr"):
+        case ("ss"):
+        case ("pp"):
+            draw(userChoice, computerChoice);
+            break;
+        default:
+            lose(userChoice, computerChoice);
+            break;
     }
 }
 
 function main() {
 
     rock_div.addEventListener('click', function() {
-        game("Rock");
+        game('r');
     })
 
     paper_div.addEventListener('click', function() {
-        game("Paper");
+        game('p');
     })
 
     scissors_div.addEventListener('click', function() {
-        game("Scissors");
+        game('s');
     })
 
 }
 
 main();
+
+
+// FIXME
+// Something with this is seriously messed up...
+// I don't know exactly what the problem is but I'm definitely a little drunk ... 
+// ... so I think I'mma just leave it here for a while and comment out the glow.
