@@ -98,9 +98,3 @@ function main() {
 }
 
 main();
-
-
-// FIXME
-// Something with this is seriously messed up...
-// I don't know exactly what the problem is but I'm definitely a little drunk ... 
-// ... so I think I'mma just leave it here for a while and comment out the glow.
